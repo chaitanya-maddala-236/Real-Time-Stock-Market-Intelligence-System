@@ -6,7 +6,7 @@ function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
 
-  const load = async () => {
+  const fetchLatestData = async () => {
     try {
       const response = await fetch(`${API_BASE}/latest`);
       if (!response.ok) {
@@ -21,8 +21,8 @@ function App() {
   };
 
   useEffect(() => {
-    load();
-    const id = setInterval(load, 15000);
+    fetchLatestData();
+    const id = setInterval(fetchLatestData, 15000);
     return () => clearInterval(id);
   }, []);
 

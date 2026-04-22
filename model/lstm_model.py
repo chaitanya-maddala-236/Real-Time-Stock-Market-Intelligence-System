@@ -82,9 +82,9 @@ def lstm_forecast(close_values: np.ndarray, window: int = 10) -> Tuple[float, fl
     next_window = close_values[-window:].reshape(1, window, 1)
     next_pred = float(model.predict(next_window, verbose=0).flatten()[0])
 
-    artifact_path = Path("model/artifacts/lstm_model.keras")
-    artifact_path.parent.mkdir(parents=True, exist_ok=True)
-    model.save(artifact_path)
+    model_artifact_path = Path("model/artifacts/lstm_model.keras")
+    model_artifact_path.parent.mkdir(parents=True, exist_ok=True)
+    model.save(model_artifact_path)
 
     return rmse, next_pred
 
