@@ -29,7 +29,7 @@ def load_data() -> pd.DataFrame:
     return frame
 
 
-def sequence_data(series: np.ndarray, window: int = 10) -> Tuple[np.ndarray, np.ndarray]:
+def build_time_series_sequences(series: np.ndarray, window: int = 10) -> Tuple[np.ndarray, np.ndarray]:
     x, y = [], []
     for i in range(window, len(series)):
         x.append(series[i - window : i])
@@ -55,7 +55,7 @@ def lstm_forecast(close_values: np.ndarray, window: int = 10) -> Tuple[float, fl
         recent = close_values[-window:] if len(close_values) >= window else close_values
         return 0.0, float(np.mean(recent))
 
-    x, y = sequence_data(close_values, window=window)
+    x, y = build_time_series_sequences(close_values, window=window)
     split = max(int(len(x) * 0.8), 1)
     x_train, x_test = x[:split], x[split:]
     y_train, y_test = y[:split], y[split:]

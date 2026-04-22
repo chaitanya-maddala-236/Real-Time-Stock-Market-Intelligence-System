@@ -13,14 +13,19 @@ def load_ticks(path: Path) -> pd.DataFrame:
         for line in f:
             line = line.strip()
             if line:
-                records.append(json.loads(line))
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
 
     if not records:
         raise ValueError("No tick records found to process")
 
     frame = pd.DataFrame(records)
     frame["event_time"] = pd.to_datetime(frame["event_time"], utc=True, errors="coerce")
-    frame = frame.sort_values("event_time").dropna(subset=["close"])
+    frame = frame.sort_values("event_time").dropna(subset=["event_time", "close"])
+    if frame.empty:
+        raise ValueError("No valid tick records found after parsing and filtering")
     return frame
 
 
