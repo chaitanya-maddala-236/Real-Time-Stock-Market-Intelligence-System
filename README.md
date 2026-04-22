@@ -53,14 +53,25 @@ Build an end-to-end system that:
 ## 🏗️ Project Structure
 
 ```text
-project/
+Real-Time-Stock-Market-Intelligence-System/
 │
 ├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── output/
 ├── model/
+│   ├── artifacts/
+│   └── lstm_model.py
 ├── kafka/
+│   ├── producer.py
+│   └── consumer.py
 ├── spark/
+│   └── process_data.py
 ├── api/
+│   └── app.py
 ├── dashboard/
+│   ├── public/
+│   └── src/
 ├── requirements.txt
 └── README.md
 ```
@@ -93,13 +104,14 @@ bin/kafka-server-start.sh config/server.properties
 ### 4. Run Data Producer
 
 ```bash
-python kafka/producer.py
+python kafka/producer.py --ticker AAPL --max-messages 60
 ```
 
 ### 5. Run Consumer + Processing
 
 ```bash
-python kafka/consumer.py
+python kafka/consumer.py --max-messages 60
+python spark/process_data.py
 ```
 
 ### 6. Train Model
@@ -114,12 +126,26 @@ python model/lstm_model.py
 python api/app.py
 ```
 
+Available API endpoints:
+
+- `GET /health`
+- `GET /predictions`
+- `GET /signals`
+- `GET /metrics`
+- `GET /latest`
+
 ### 8. Run Dashboard
 
 ```bash
 cd dashboard
 npm install
 npm start
+```
+
+Optional API URL override:
+
+```bash
+REACT_APP_API_BASE=http://localhost:5000 npm start
 ```
 
 ## 📈 Output
