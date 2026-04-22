@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+
+# Python virtual/env folders
+.venv/
+venv/
+env/
+
+# Generated data artifacts
+data/raw/*.jsonl
+data/processed/*.csv
+data/output/*.json
+model/artifacts/*.json
+model/artifacts/*.keras
+
+# Node modules
+node_modules/
+dashboard/node_modules/
