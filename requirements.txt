@@ -5,6 +5,7 @@ scikit-learn
 tensorflow
 yfinance
 flask
+flask-cors
 kafka-python
 pyspark
 pymongo
